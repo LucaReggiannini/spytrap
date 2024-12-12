@@ -190,7 +190,7 @@ while [[ "$#" -gt 0 ]]; do
         --honeypot-dns-remote-host) honeypot_dns_remote_host="$2"; shift;;
         --honeypot-dns-remote-port) honeypot_dns_remote_port="$2"; shift;;
         --honeypot-echo-port) honeypot_echo_port="$2"; tcpdump_capture_ports+=("$2"); shift;;
-        --tcpdump-capture) tcpdump_capture=true; shift;;
+        --tcpdump-capture) tcpdump_capture=true;;
         --help) help; exit 1;;
         *) print_error "Unknown argument: $1. Use --help for the manual"; exit 1;;
     esac
