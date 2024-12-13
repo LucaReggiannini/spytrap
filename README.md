@@ -1,6 +1,31 @@
 # spytrap
 
-Manual:
+Minimalistic honeypot and monitoring tool for Linux.
+
+How to use:
+```
+git clone https://github.com/LucaReggiannini/spytrap
+cd spytrap && chmod +x ./spytrap.sh
+./spytrap.sh --help
+```
+
+Dependencies:
+
+- `nmap` (for `ncat` command)
+- `tcpdump`
+- `iproute2` (for `ss` and `ip` commands)
+- `procps-ng` (for `ps` command)
+- `sed`
+- `grep`
+- `libnotify` (for `notify-send` command)
+- `coreutils`
+
+This tool uses `tcpdump`. To execute without `sudo` run:
+```
+sudo setcap cap_net_raw,cap_net_admin=eip $(which tcpdump)
+```
+
+## Manual
 
 ```
 Spytrap, version 1.0 - Minimalistic honeypot and monitoring tool for Linux
@@ -46,8 +71,17 @@ Examples:
              --tcpdump-capture
 
   spytrap.sh --honeypot-dns-port 8053 --honeypot-dns-remote-host 1.1.1.1
+```
 
-Disclaimer:
+## Demo
+
+Below is a simulation of an attacker scanning the network, enumerating services, and performing an RCE on the machine.
+
+In this demo, you can see how Spytrap informs the user about the malicious activity:
+
+![demo GIF](demo.gif)
+
+## Disclaimer
 - This code is in an early development stage and has not been thoroughly refined or
   tested. Use it with caution
 - Always ensure the tools used by this script (ncat, tcpdump, iproute2...) are up 
@@ -63,7 +97,7 @@ Disclaimer:
   rate-limiting to prevent resource exhaustion (e.g., DDoS).
 - Be smart
 
-Why this project:
+## Why this project
 This project was designed to meet my personal needs and preferences:
 - Minimalism: I kept the code as simple and minimal as possible, making it easy to 
   understand, debug, and maintain.
@@ -74,4 +108,3 @@ This project was designed to meet my personal needs and preferences:
 - Adaptability in Untrusted Networks: I specifically designed Spytrap to work on 
   untrusted networks without requiring additional security devices, providing a 
   portable and standalone solution.
-```
