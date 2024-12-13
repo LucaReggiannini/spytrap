@@ -13,6 +13,7 @@ Dependencies:
 
 - `nmap` (for `ncat` command)
 - `tcpdump`
+- `inotify-tools` (for `inotifywait` command)
 - `iproute2` (for `ss` and `ip` commands)
 - `procps-ng` (for `ps` command)
 - `sed`
