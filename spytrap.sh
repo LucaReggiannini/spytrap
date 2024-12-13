@@ -179,6 +179,7 @@ command -v ps 1>/dev/null || print_error 'Command "ps" from package "procps-ng" 
 command -v sed 1>/dev/null || print_error 'Command "sed" from package "sed" not found.'
 command -v grep 1>/dev/null || print_error 'Command "grep" from package "grep" not found.'
 command -v notify-send 1>/dev/null || print_error 'Command "notify-send" from package "libnotify" not found.'
+command -v inotifywait 1>/dev/null || print_error 'Command "inotifywait" from package "inotify-tools" not found.'
 
 # Parse CLI Arguments
 [[ "$#" -eq 0 ]] && help && exit 0
