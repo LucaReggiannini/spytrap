@@ -227,7 +227,7 @@ command -v inotifywait 1>/dev/null || print_error 'Command "inotifywait" from pa
 [[ "$#" -eq 0 ]] && help && exit 0
 while [[ "$#" -gt 0 ]]; do
     case "$1" in
-		--canary-file) canary_file_paths+=("$2"); shift;;
+	--canary-file) canary_file_paths+=("$2"); shift;;
         --honeypot-http-port) honeypot_http_port="$2"; tcpdump_capture_ports+=("$2"); shift;;
         --honeypot-dns-port) honeypot_dns_port="$2"; tcpdump_capture_ports+=("$2"); shift;;
         --honeypot-dns-remote-host) honeypot_dns_remote_host="$2"; shift;;
@@ -246,7 +246,11 @@ done
 [[ -n "$honeypot_echo_port" ]] && ! is_valid_port "$honeypot_echo_port" && print_error "--honeypot_echo_port: invalid port number."
 [[ -n "$honeypot_dns_remote_port" ]] && ! is_valid_port "$honeypot_dns_remote_port" && print_error "--honeypot_dns_remote_port: invalid port number."
 [[ -n "$honeypot_dns_remote_host" ]] && ! is_valid_ip "$honeypot_dns_remote_host" && print_error "--honeypot-dns-remote-host: invalid IPv4."
-check_ports_duplicate "$honeypot_dns_port" "$honeypot_http_port" "$honeypot_echo_port" || print_error "Ports are duplicated"
+
+# If you pass multiple undeclared honeypot ports to "check_ports_duplicate"
+# they will count as "duplicate". Ensure to delete empty variables before 
+# using "| tr ' ' '\n' | grep -v '^$')" before calling "check_ports_duplicate"
+check_ports_duplicate $(echo "$honeypot_dns_port $honeypot_http_port $honeypot_echo_port" | tr ' ' '\n' | grep -v '^$') || print_error "Ports are duplicated"      
 check_ports_busy "$honeypot_dns_port" "$honeypot_http_port" "$honeypot_echo_port" || print_error "Ports busy"
 
 # Start components
