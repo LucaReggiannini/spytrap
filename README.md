@@ -93,7 +93,7 @@ EXAMPLES
 	spytrap.sh --honeypot-http-port 8080 \\
 			   --honeypot-dns-port 8053 \\
 			   --honeypot-echo-port 12345 \\
-			   --canary-file /home/user/passwords.txt \\
+			   --canary-file /home/user/passwords/passwords.txt \\
 			   --tcpdump-capture
 
 	spytrap.sh --honeypot-dns-port 8053 \\
@@ -152,3 +152,23 @@ In this demo, you can see how Spytrap informs the user about the malicious activ
 
 | ![demo GIF](demo.gif) |
 |-|
+
+## Autorun
+
+Example of how to automatically start Spytrap on user login using Systemd Service.
+
+1. Create a new ".service" file like this:
+```
+cat $HOME/.config/systemd/user/spytrap.service 
+[Unit]
+Description=spytrap
+
+[Service]
+ExecStart=/usr/local/bin/spytrap.sh --canary-file /home/user/passwords/passwords.txt --honeypot-http-port 8080
+
+[Install]
+WantedBy=default.target
+```
+2. Enable with `systemctl --user enable spytrap`
+3. Start with `systemctl --user start spytrap`
+4. Make sure everything is working by opening a canary file or honeypot
